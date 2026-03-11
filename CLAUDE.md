@@ -179,12 +179,15 @@ GOOD: MIN_PASSWORD_LENGTH = 8; if len(password) < MIN_PASSWORD_LENGTH
 - Rotate secrets regularly
 
 ### Environment Variables
+
+Define required variables in `.env.example` (without real values) so new developers know what to configure. Common examples:
+
 ```bash
-# Required for all environments
 DATABASE_URL="..."
-API_SECRET_KEY="..."
-JWT_SECRET_KEY="..."
+SECRET_KEY="..."
 ```
+
+The specific variables depend on your stack — document them in the project's own CLAUDE.md or README.
 
 ---
 
