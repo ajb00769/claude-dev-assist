@@ -14,9 +14,9 @@ Use these skills when relevant to your task:
 
 | Skill | When to Use |
 |-------|-------------|
-| `/azure-boards` | Work item management, WIQL queries, iterations |
 | `/github-actions` | CI/CD workflows, secrets, deployments |
-| `/pr` | Creating PRs with Azure Boards work item linking |
+| `/pr` | Creating PRs |
+| `/migrate` | Database migrations as part of deployment pipelines |
 
 ## Core Philosophy
 

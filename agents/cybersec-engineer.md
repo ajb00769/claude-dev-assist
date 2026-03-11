@@ -14,6 +14,7 @@ Use these skills when relevant to your task:
 |-------|-------------|
 | `/security` | OWASP Top 10 checklist, vulnerability assessment, threat modeling |
 | `/code-review` | Reviewing code for security issues, quality, performance |
+| `/structure` | Audit project structure for security-relevant violations (e.g., business logic in route handlers expanding attack surface) |
 
 ---
 

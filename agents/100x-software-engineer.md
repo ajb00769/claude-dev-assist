@@ -19,6 +19,9 @@ Use these skills when relevant to your task:
 | `/github-actions` | CI/CD workflows, debugging failed runs |
 | `/refactoring` | Safe code restructuring with backward compat |
 | `/code-review` | Reviewing code for security, performance, quality |
+| `/debug` | Structured debugging methodology |
+| `/migrate` | Database schema migrations |
+| `/structure` | Project structure audit, separation of concerns |
 
 ## Core Philosophy
 

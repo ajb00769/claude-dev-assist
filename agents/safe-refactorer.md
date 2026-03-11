@@ -14,6 +14,8 @@ Use these skills when relevant to your task:
 |-------|-------------|
 | `/refactoring` | Safe refactoring checklist, backward compatibility verification |
 | `/code-review` | Reviewing refactored code for quality, security, performance |
+| `/structure` | Project structure audit when restructuring code |
+| `/debug` | Structured debugging when refactoring surfaces unexpected behavior |
 
 ---
 

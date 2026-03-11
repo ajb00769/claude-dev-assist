@@ -25,7 +25,7 @@ Refactor code while preserving backward compatibility.
 
 ```
 1. VERIFY  → Tests pass, behavior documented
-2. GREP    → Find all usages
+2. GREP    → Find all usages (use Grep tool, not bash grep)
 3. PLAN    → Identify smallest safe changes
 4. CHANGE  → Make one change at a time
 5. TEST    → Run tests after each change
@@ -36,62 +36,52 @@ Refactor code while preserving backward compatibility.
 
 ### Extract Function
 
-```python
-# Before
-def process():
-    # ... 50 lines of code ...
-    result = complex_calculation(a, b, c)
-    # ... more code ...
+```
+Before:
+  function process() {
+    // ... 50 lines of code ...
+    result = complexCalculation(a, b, c)
+    // ... more code ...
+  }
 
-# After - extract without changing behavior
-def _complex_calculation(a, b, c):
-    """Extracted from process() - same logic."""
-    return complex_calculation(a, b, c)
+After - extract without changing behavior:
+  function _complexCalculation(a, b, c) {
+    // Extracted from process() - same logic
+    return complexCalculation(a, b, c)
+  }
 
-def process():
-    # ... 50 lines of code ...
-    result = _complex_calculation(a, b, c)
-    # ... more code ...
+  function process() {
+    // ... 50 lines of code ...
+    result = _complexCalculation(a, b, c)
+    // ... more code ...
+  }
 ```
 
 ### Rename Symbol
 
-```bash
-# 1. Find all usages
-grep -r "old_name" --include="*.py" app/
-
-# 2. Check imports
-grep -r "from .* import.*old_name" app/
-
-# 3. Check tests
-grep -r "old_name" tests/
-
-# 4. Rename everywhere atomically
-# 5. Run tests
+```
+1. Use Grep to find all usages of "old_name" in the codebase
+2. Check imports/requires referencing old_name
+3. Check test files for old_name
+4. Rename everywhere atomically
+5. Run tests
 ```
 
 ### Move Function to New Module
 
-```python
-# 1. Create new module with function
-# 2. Add re-export in old location (temporary)
-# old_module.py
-from new_module import moved_function  # Re-export
-
-# 3. Update all imports over time
-# 4. Remove re-export when all updated
+```
+1. Create new module with the function
+2. Add re-export in old location (temporary backward compat)
+   // old_module: export { movedFunction } from './new_module'
+3. Update all imports over time
+4. Remove re-export when all updated
 ```
 
 ### Change Function Signature
 
-```python
-# Safe: Add optional parameter with default
-def func(a, b, new_param=None):  # OK - backward compatible
-    pass
-
-# Unsafe: Change parameter order or make required
-def func(new_param, a, b):  # BREAKS callers
-    pass
+```
+Safe:    Add optional parameter with default → backward compatible
+Unsafe:  Change parameter order or make new param required → BREAKS callers
 ```
 
 ## Backward Compatibility Rules
@@ -99,7 +89,7 @@ def func(new_param, a, b):  # BREAKS callers
 ### DO
 - Add optional parameters with defaults
 - Add new functions alongside old
-- Use deprecation warnings before removal
+- Use deprecation warnings/annotations before removal
 - Keep re-exports during migration
 
 ### DON'T
@@ -112,18 +102,11 @@ def func(new_param, a, b):  # BREAKS callers
 
 ### After Each Change
 
-```bash
-# 1. Run tests
-pytest
-
-# 2. Type check (if using)
-mypy app/
-
-# 3. Lint
-ruff check .
-
-# 4. Verify specific functionality
-# (manual test or integration test)
+```
+1. Run tests (project's test runner)
+2. Run type checker (if the project uses one)
+3. Run linter (project's linter)
+4. Verify specific functionality (manual or integration test)
 ```
 
 ### Before Committing
@@ -145,15 +128,15 @@ ruff check .
 
 ## Deprecation Pattern
 
-```python
-import warnings
+Mark deprecated code using the language's idiomatic mechanism:
 
-def old_function():
-    """Deprecated: Use new_function instead."""
-    warnings.warn(
-        "old_function is deprecated, use new_function",
-        DeprecationWarning,
-        stacklevel=2
-    )
-    return new_function()
 ```
+- Python: warnings.warn("...", DeprecationWarning)
+- TypeScript/JavaScript: @deprecated JSDoc tag
+- Java: @Deprecated annotation
+- Go: // Deprecated: comment convention
+- Rust: #[deprecated(note = "...")]
+- C#: [Obsolete("...")]
+```
+
+The deprecated function should delegate to the new function so callers still work.
