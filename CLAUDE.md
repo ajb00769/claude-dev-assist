@@ -16,6 +16,12 @@
 - No backwards-compatibility hacks (unused exports, `_vars`, `// removed` comments)
 - If unused, delete it completely
 
+**Safety-First Refactoring**: If refactoring code that lacks test coverage, write characterization tests FIRST to lock in current behavior, then refactor against those tests.
+
+**Full-Stack Debugging**: Don't just check server logs. Trace issues end-to-end: browser console → network tab (endpoint, payload, headers, response) → server handler → service → DB → response → frontend state → UI. Identify which boundary the bug crosses.
+
+**Database Design**: Default to normalized schemas (3NF). When a flattened query shape is needed, prefer views or materialized views over denormalized tables. Only denormalize when views aren't sufficient, and document why.
+
 ---
 
 ## Git Workflow
